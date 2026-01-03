@@ -15,7 +15,7 @@ Spam SMS messages cause inconvenience and can lead to financial fraud. Rule-base
 **SMS Spam Collection Dataset (Kaggle)**  
 -Directly matches the Kaggle dataset (SMS Spam Collection)
 - NLP is the correct term for text preprocessing + TF-IDF
-- Simple to implement (very little code)
+- Simple to implement 
 - Judges instantly understand the problem
 - Fits perfectly under AI / Machine Learning
 - https://www.kaggle.com/datasets/mariumfaheem666/spam-sms-classification-using-nlp
