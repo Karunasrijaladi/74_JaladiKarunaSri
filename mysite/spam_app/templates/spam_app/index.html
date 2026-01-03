@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpamGuard AI 🛡️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 550px;
+            transition: transform 0.2s ease;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: var(--text-main);
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.025em;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ecfdf5;
+            color: #065f46;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            border: 1px solid #d1fae5;
+        }
+
+        .status-dot {
+            height: 6px;
+            width: 6px;
+            background-color: #10b981;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box; /* Important for padding */
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        .result-card {
+            margin-top: 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+            border: 1px solid transparent;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .result-body {
+            padding: 1.5rem;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .spam-bg {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border-color: #fee2e2;
+        }
+
+        .ham-bg {
+            background-color: #ecfdf5;
+            color: #065f46;
+            border-color: #d1fae5;
+        }
+
+        .insight-box {
+            background-color: white;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .feedback-section {
+            text-align: center;
+        }
+
+        .feedback-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-feedback {
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-correct {
+            background-color: white;
+            border-color: #d1fae5;
+            color: #059669;
+        }
+        .btn-correct:hover { background-color: #ecfdf5; }
+
+        .btn-report-spam {
+            background-color: white;
+            border-color: #fee2e2;
+            color: #dc2626;
+        }
+        .btn-report-spam:hover { background-color: #fef2f2; }
+
+        .btn-report-safe {
+            background-color: white;
+            border-color: #dbeafe;
+            color: #2563eb;
+        }
+        .btn-report-safe:hover { background-color: #eff6ff; }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>SpamGuard AI 🛡️</h1>
+        <p>Intelligent SMS & Text Analysis System</p>
+        
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            {% if last_update %}
+                Model Live • Retrained {{ last_update|timesince }} ago
+            {% else %}
+                Model Live • Ready
+            {% endif %}
+        </div>
+    </div>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <textarea name="message" placeholder="Paste your message here to analyze... (e.g., 'You won a free prize! Call now!')">{{ message }}</textarea>
+        <button type="submit" class="btn-primary">Analyze Message</button>
+    </form>
+
+    {% if result %}
+        <div class="result-card {% if 'Spam' in result %}spam-bg{% else %}ham-bg{% endif %}">
+            <div class="result-header">
+                {{ result }}
+            </div>
+            
+            <div class="result-body">
+                {% if explanation %}
+                <div class="insight-box">
+                    <strong>💡 AI Insight:</strong> {{ explanation }}
+                </div>
+                {% endif %}
+
+                <!-- Feedback Section -->
+                <div class="feedback-section">
+                    <div class="feedback-title">Help improve the model</div>
+                    <div class="feedback-buttons">
+                        <!-- Correct Feedback -->
+                        <form action="{% url 'submit_feedback' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="message" value="{{ message }}">
+                            <input type="hidden" name="predicted_label" value="{% if 'Spam' in result %}spam{% else %}ham{% endif %}">
+                            <input type="hidden" name="actual_label" value="{% if 'Spam' in result %}spam{% else %}ham{% endif %}">
+                            <button type="submit" class="btn-feedback btn-correct">
+                                <span>✅</span> Confirm Correct
+                            </button>
+                        </form>
+
+                        <!-- Incorrect: Report as Spam -->
+                        {% if 'Ham' in result or 'Safe' in result %}
+                        <form action="{% url 'submit_feedback' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="message" value="{{ message }}">
+                            <input type="hidden" name="predicted_label" value="ham">
+                            <input type="hidden" name="actual_label" value="spam">
+                            <button type="submit" class="btn-feedback btn-report-spam">
+                                <span>❌</span> Report as Spam
+                            </button>
+                        </form>
+                        {% endif %}
+
+                        <!-- Incorrect: Report as Ham -->
+                        {% if 'Spam' in result %}
+                        <form action="{% url 'submit_feedback' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="message" value="{{ message }}">
+                            <input type="hidden" name="predicted_label" value="spam">
+                            <input type="hidden" name="actual_label" value="ham">
+                            <button type="submit" class="btn-feedback btn-report-safe">
+                                <span>❌</span> Report as Safe
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="footer">
+        Powered by Self-Learning Naive Bayes • Retrains every 3 mins
+    </div>
+</div>
+
+</body>
+</html>
