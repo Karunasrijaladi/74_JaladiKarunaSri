@@ -1,5 +1,4 @@
-# 📩 SMS Spam Detection using Machine Learning and Generative AI
-
+# 📩 AI-Powered Spam SMS Classification Using NLP and Machine Learning
 ## 📌 Problem Statement
 Spam SMS messages cause inconvenience and can lead to financial fraud. Rule-based filters fail to adapt to evolving spam patterns. This project builds an AI-based system that classifies SMS messages as Spam or Ham using machine learning, with optional Generative AI explanations to improve transparency.
 
