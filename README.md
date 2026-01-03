@@ -1,56 +1,72 @@
-# 📩 AI-Powered Spam SMS Classification Using NLP and Machine Learning
-## 📌 Problem Statement
-Spam SMS messages cause inconvenience and can lead to financial fraud. Rule-based filters fail to adapt to evolving spam patterns. This project builds an AI-based system that classifies SMS messages as Spam or Ham using machine learning, with optional Generative AI explanations to improve transparency.
+AI-Powered Spam SMS Classification Using NLP and Machine Learning
+📌 Problem Statement
 
+Spam SMS messages cause inconvenience and may lead to financial fraud. Traditional rule-based filters struggle to adapt to evolving spam patterns. This project proposes an AI-powered system that classifies SMS messages as Spam or Ham (Not Spam) using Natural Language Processing (NLP) and Machine Learning techniques.
 
-## 🎯 Objectives
-- Classify SMS messages into Spam or Ham
-- Build a lightweight and efficient ML model
-- Include AI-driven explanation for predictions
-- Ensure reproducibility within a hackathon timeframe
+🎯 Objectives
 
+Classify SMS messages into Spam or Ham
 
-## 📂 Dataset
-**SMS Spam Collection Dataset (Kaggle)**  
--Directly matches the Kaggle dataset (SMS Spam Collection)
-- NLP is the correct term for text preprocessing + TF-IDF
-- Simple to implement 
-- Judges instantly understand the problem
-- Fits perfectly under AI / Machine Learning
-- https://www.kaggle.com/datasets/mariumfaheem666/spam-sms-classification-using-nlp
+Build a lightweight and efficient machine learning model
 
+Incorporate AI-driven explanations for predictions
 
-## 🧠 Solution Overview
-1. Text preprocessing (cleaning and tokenization)
-2. Feature extraction using TF-IDF
-3. Classification using Multinomial Naive Bayes
-4. Optional Generative AI explanation for predictions
+Ensure reproducibility within a hackathon environment
 
-## 🏗️ Architecture
+📂 Dataset
+
+SMS Spam Collection Dataset (Kaggle)
+
+Labeled SMS messages (spam, ham)
+
+Widely used benchmark dataset for spam detection
+
+Dataset link:
+https://www.kaggle.com/datasets/mariumfaheem666/spam-sms-classification-using-nlp
+
+🧠 Solution Overview
+
+Text preprocessing using NLP techniques (cleaning, tokenization, stopword removal)
+
+Feature extraction using TF-IDF Vectorization
+
+Classification using Multinomial Naive Bayes
+
+Optional integration of Generative AI for explainable predictions
+
+🏗️ System Architecture
 SMS Message
-↓
+   ↓
 Text Preprocessing
-↓
+   ↓
 TF-IDF Vectorizer
-↓
-Naive Bayes Classifier
-↓
+   ↓
+Multinomial Naive Bayes Classifier
+   ↓
 Prediction (Spam / Ham)
-↓
-Generative AI Explanation
+   ↓
+AI-Based Explanation (Optional)
 
-## ⚙️ Tech Stack
-- Python
-- Pandas
-- Scikit-learn
-- Multinomial Naive Bayes
-- Generative AI (optional: OpenAI / Gemini / Local LLM)
+⚙️ Tech Stack
 
+Python
+Pandas
+Scikit-learn
+Multinomial Naive Bayes
+Generative AI (optional: OpenAI / Gemini / Local LLM)
+Django (for web application)
 
-## 📊 Evaluation Metrics
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- Confusion Matrix
-- webiste that usually tells us whether that SMS is Spam or not
+📊 Evaluation Metrics
+Accuracy
+Precision
+Recall
+F1-score
+Confusion Matrix
+
+🌐 Web Application
+
+A Django-based web interface allows users to enter an SMS message and receive real-time spam classification results, simulating real-world SMS spam filtering systems used in telecom networks.
+
+📌 Conclusion
+
+This project demonstrates a practical AI-based spam SMS detection system using NLP and machine learning. The solution is efficient, interpretable, and suitable for real-world deployment as well as AI hackathon evaluation.
