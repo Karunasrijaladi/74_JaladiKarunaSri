@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpamGuard AI 🛡️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
             --success: #10b981;
             --danger: #ef4444;
-            --warning: #f59e0b;
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg-gradient);
             display: flex;
             justify-content: center;
@@ -27,185 +28,268 @@
             min-height: 100vh;
             margin: 0;
             color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .container {
-            background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        /* Floating Background Objects */
+        .background-objects {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 550px;
-            transition: transform 0.2s ease;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.15;
+            animation: float 15s infinite linear;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .icon-1 { left: 10%; animation-duration: 12s; animation-delay: 0s; font-size: 4rem; }
+        .icon-2 { left: 30%; animation-duration: 18s; animation-delay: -5s; font-size: 2.5rem; }
+        .icon-3 { left: 70%; animation-duration: 15s; animation-delay: -2s; font-size: 3.5rem; }
+        .icon-4 { left: 85%; animation-duration: 20s; animation-delay: -8s; font-size: 3rem; }
+        .icon-5 { left: 50%; animation-duration: 25s; animation-delay: -12s; font-size: 2rem; }
+
+        .container {
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .container:hover {
+            transform: translateY(-2px);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .header h1 {
             color: var(--text-main);
             margin: 0;
-            font-weight: 700;
-            font-size: 1.8rem;
-            letter-spacing: -0.025em;
+            font-weight: 800;
+            font-size: 2.2rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .header p {
             color: var(--text-muted);
-            margin-top: 0.5rem;
-            font-size: 0.95rem;
+            margin-top: 0.75rem;
+            font-size: 1.05rem;
+            line-height: 1.5;
         }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
-            background-color: #ecfdf5;
-            color: #065f46;
-            padding: 0.25rem 0.75rem;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            padding: 0.5rem 1rem;
             border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-top: 1rem;
-            border: 1px solid #d1fae5;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .status-badge:hover {
+            background-color: rgba(16, 185, 129, 0.15);
+            transform: scale(1.02);
         }
 
         .status-dot {
-            height: 6px;
-            width: 6px;
+            height: 8px;
+            width: 8px;
             background-color: #10b981;
             border-radius: 50%;
-            margin-right: 6px;
-            animation: pulse 2s infinite;
+            margin-right: 8px;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse-green 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
             70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
             100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
+        form {
+            position: relative;
+        }
+
         textarea {
             width: 100%;
-            padding: 1rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            padding: 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
             resize: vertical;
-            min-height: 120px;
+            min-height: 140px;
             margin-bottom: 1.5rem;
             font-size: 1rem;
             font-family: inherit;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            box-sizing: border-box; /* Important for padding */
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            background-color: #f8fafc;
+            color: var(--text-main);
         }
 
         textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        textarea::placeholder {
+            color: #94a3b8;
         }
 
         .btn-primary {
-            background-color: var(--primary);
+            background: linear-gradient(to right, var(--primary), #4338ca);
             color: white;
             border: none;
-            padding: 0.875rem 1.5rem;
-            border-radius: 10px;
-            font-size: 1rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary:hover {
-            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
         }
 
         .btn-primary:active {
-            transform: translateY(1px);
+            transform: translateY(0);
         }
 
+        /* Result Card Styles */
         .result-card {
-            margin-top: 2rem;
-            border-radius: 12px;
+            margin-top: 2.5rem;
+            border-radius: 16px;
             overflow: hidden;
-            animation: slideUp 0.3s ease-out;
-            border: 1px solid transparent;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .result-header {
-            padding: 1rem;
+            padding: 1.25rem;
             text-align: center;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .result-body {
-            padding: 1.5rem;
-            background-color: #f9fafb;
-            border-top: 1px solid #e5e7eb;
+            padding: 2rem;
+            background-color: #f8fafc;
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
         .spam-bg {
             background-color: #fef2f2;
             color: #991b1b;
-            border-color: #fee2e2;
+            border: 1px solid #fee2e2;
         }
+        .spam-bg .result-header { background-color: #fee2e2; color: #7f1d1d; }
 
         .ham-bg {
             background-color: #ecfdf5;
             color: #065f46;
-            border-color: #d1fae5;
+            border: 1px solid #d1fae5;
         }
+        .ham-bg .result-header { background-color: #d1fae5; color: #047857; }
 
         .insight-box {
             background-color: white;
-            border-left: 4px solid var(--primary);
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            color: var(--text-main);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #334155;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .feedback-section {
             text-align: center;
+            padding-top: 1rem;
+            border-top: 2px dashed #e2e8f0;
         }
 
         .feedback-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         .feedback-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn-feedback {
             border: 1px solid transparent;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
 
         .btn-correct {
@@ -213,69 +297,111 @@
             border-color: #d1fae5;
             color: #059669;
         }
-        .btn-correct:hover { background-color: #ecfdf5; }
+        .btn-correct:hover { background-color: #ecfdf5; transform: translateY(-1px); }
 
         .btn-report-spam {
             background-color: white;
             border-color: #fee2e2;
             color: #dc2626;
         }
-        .btn-report-spam:hover { background-color: #fef2f2; }
+        .btn-report-spam:hover { background-color: #fef2f2; transform: translateY(-1px); }
 
         .btn-report-safe {
             background-color: white;
             border-color: #dbeafe;
             color: #2563eb;
         }
-        .btn-report-safe:hover { background-color: #eff6ff; }
+        .btn-report-safe:hover { background-color: #eff6ff; transform: translateY(-1px); }
 
         .footer {
-            margin-top: 2rem;
+            margin-top: 2.5rem;
             text-align: center;
-            font-size: 0.8rem;
-            color: #9ca3af;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
+<!-- Animated Background Objects -->
+<div class="background-objects">
+    <div class="floating-icon icon-1">✉️</div>
+    <div class="floating-icon icon-2">🛡️</div>
+    <div class="floating-icon icon-3">🚨</div>
+    <div class="floating-icon icon-4">💬</div>
+    <div class="floating-icon icon-5">🔒</div>
+</div>
+
 <div class="container">
     <div class="header">
-        <h1>SpamGuard AI 🛡️</h1>
-        <p>Intelligent SMS & Text Analysis System</p>
+        <h1>SpamGuard AI</h1>
+        <p>Advanced SMS & Text Threat Analysis Engine</p>
         
         <div class="status-badge">
             <div class="status-dot"></div>
             {% if last_update %}
-                Model Live • Retrained {{ last_update|timesince }} ago
+                Live Learning • Retrains {{ last_update|timesince }} ago
             {% else %}
-                Model Live • Ready
+                Live Learning • System Ready
             {% endif %}
         </div>
     </div>
     
     <form method="POST">
         {% csrf_token %}
-        <textarea name="message" placeholder="Paste your message here to analyze... (e.g., 'You won a free prize! Call now!')">{{ message }}</textarea>
-        <button type="submit" class="btn-primary">Analyze Message</button>
+        <textarea name="message" placeholder="Paste your suspicious message here...&#10;Example: 'URGENT! You have won a $1000 prize. Click link to claim.'" required>{{ message }}</textarea>
+        <button type="submit" class="btn-primary">Analyze for Threats ⚡</button>
     </form>
+    
+    {% if messages %}
+    <div style="margin-top: 1.5rem; text-align: center;">
+        {% for message in messages %}
+        <div style="padding: 0.75rem 1.5rem; background-color: #ecfdf5; color: #065f46; border-radius: 8px; font-size: 0.9rem; border: 1px solid #d1fae5; display: inline-block;">
+            ✨ {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     {% if result %}
         <div class="result-card {% if 'Spam' in result %}spam-bg{% else %}ham-bg{% endif %}">
             <div class="result-header">
-                {{ result }}
+                {% if 'Spam' in result %}
+                    <span>🚫</span> {{ result }}
+                {% else %}
+                    <span>✅</span> {{ result }}
+                {% endif %}
             </div>
             
             <div class="result-body">
                 {% if explanation %}
                 <div class="insight-box">
-                    <strong>💡 AI Insight:</strong> {{ explanation }}
+                    <strong style="display:block; margin-bottom:0.5rem; color:var(--primary);">💡 AI Analysis</strong>
+                    {{ explanation }}
                 </div>
                 {% endif %}
 
                 <!-- Feedback Section -->
                 <div class="feedback-section">
-                    <div class="feedback-title">Help improve the model</div>
+                    <div class="feedback-title">Was this analysis correct?</div>
                     <div class="feedback-buttons">
                         <!-- Correct Feedback -->
                         <form action="{% url 'submit_feedback' %}" method="POST">
@@ -284,7 +410,7 @@
                             <input type="hidden" name="predicted_label" value="{% if 'Spam' in result %}spam{% else %}ham{% endif %}">
                             <input type="hidden" name="actual_label" value="{% if 'Spam' in result %}spam{% else %}ham{% endif %}">
                             <button type="submit" class="btn-feedback btn-correct">
-                                <span>✅</span> Confirm Correct
+                                <span>Yes, Correct</span>
                             </button>
                         </form>
 
@@ -296,7 +422,7 @@
                             <input type="hidden" name="predicted_label" value="ham">
                             <input type="hidden" name="actual_label" value="spam">
                             <button type="submit" class="btn-feedback btn-report-spam">
-                                <span>❌</span> Report as Spam
+                                <span>No, it's Spam</span>
                             </button>
                         </form>
                         {% endif %}
@@ -306,10 +432,27 @@
                         <form action="{% url 'submit_feedback' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="message" value="{{ message }}">
-                            <input type="hidden" name="predicted_label" value="spam">
+  div>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = this.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+        btn.innerHTML = 'Analyzing... <div class="spinner"></div>';
+        btn.style.opacity = '0.9';
+        btn.style.pointerEvents = 'none';
+        
+        // Safety timeout in case ser er hangs
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+        }, 10000);
+    });
+</script><input type="hidden" name="predicted_label" value="spam">
                             <input type="hidden" name="actual_label" value="ham">
                             <button type="submit" class="btn-feedback btn-report-safe">
-                                <span>❌</span> Report as Incorrect
+                                <span>No, it's Safe</span>
                             </button>
                         </form>
                         {% endif %}
@@ -320,7 +463,7 @@
     {% endif %}
 
     <div class="footer">
-        Powered by Self-Learning Naive Bayes • Retrains every 3 mins
+        Self-Learning Naive Bayes System • Retrains every 3 minutes
     </div>
 </div>
 

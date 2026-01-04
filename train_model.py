@@ -107,6 +107,15 @@ import pickle
 
 # Step 7: Save the Model and Vectorizer
 print("\nSaving model and vectorizer...")
-pickle.dump(model, open('spam_model.pkl', 'wb'))
-pickle.dump(tfidf, open('tfidf_vectorizer.pkl', 'wb'))
-print("Model saved as 'spam_model.pkl' and vectorizer as 'tfidf_vectorizer.pkl'")
+import os
+output_dir = os.path.join(os.getcwd(), 'mysite')
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+model_path = os.path.join(output_dir, 'spam_model.pkl')
+vec_path = os.path.join(output_dir, 'tfidf_vectorizer.pkl')
+
+pickle.dump(model, open(model_path, 'wb'))
+pickle.dump(tfidf, open(vec_path, 'wb'))
+print(f"Model saved to: {model_path}")
+print(f"Vectorizer saved to: {vec_path}")

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 import pickle
 import os
 import string
@@ -7,6 +8,7 @@ from nltk.corpus import stopwords
 from django.conf import settings
 from .models import Feedback
 import datetime
+from django.utils import timezone
 
 # Load model and vectorizer paths
 BASE_DIR = settings.BASE_DIR
@@ -127,6 +129,8 @@ def submit_feedback(request):
             actual_label=actual_label,
             is_correct=is_correct
         )
+        
+        messages.success(request, "Feedback received! The model will learn from this in the next cycle.")
         
     return redirect('predict_spam')
 
